@@ -1,0 +1,21 @@
+# 行尾统一（v4 外部复核 P1）
+#
+# 背景：Windows 上 Git for Windows 默认 core.autocrlf=true，工作区文件被还原成 CRLF，
+# 而 .skill 包内与 evidence/ 留档是 LF。scripts/build_skill_pkg.py --check 逐字节比对
+# 时会因此稳定误报「内容漂移」，黄金集留档的 sha256 比对也会假红。
+#
+# 统一为 LF 之后：任何机器克隆下来工作区都是 LF，逐字节比对与 sha256 校验真实成立。
+# （scripts/build_skill_pkg.py 另有行尾归一兜底：只差行尾时只报提示、不算漂移。）
+* text=auto eol=lf
+
+# 二进制：不做行尾转换、不做文本 diff
+*.skill binary
+*.zip   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.xlsx  binary
+*.docx  binary
+*.pptx  binary
+*.pdf   binary

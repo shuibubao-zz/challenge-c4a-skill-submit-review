@@ -1,7 +1,9 @@
 # .skill 安装验证（解包副本上真跑）
 
 打包：c4-skill-evaluator.skill（48 个文件，58,850 字节，zip，SKILL.md 在根；
-     由 scripts/build_skill_pkg.py 生成，包内与仓库 sha256 校验一致）
+     由 scripts/build_skill_pkg.py 生成；`--check` 比对前统一 CRLF→LF，48/48 内容一致
+     ※ Windows 默认 core.autocrlf=true 会把工作区还原成 CRLF，逐字节直接比 sha256 会假红，
+       故仓库根目录放 .gitattributes（eol=lf）：纯净克隆下工作区即 LF，逐字节亦一致）
 解包到：C:/Users/Public/c4a_install_test（纯 ASCII 路径，模拟换台机器）
 验证日期：2026-10-06（v4 加固轮后重打、重验）
 
@@ -14,7 +16,8 @@ $ python scripts/c4_evaluator.py selftest   （阻塞 PyYAML import，模拟无 
     v4 修复后本项是每次打包后的固定验收项。
 
 $ python scripts/golden_test.py
-  -> 完整性判定 97.5%；严重误判 3.1%；作者识别 8/8（与 evidence/golden_test_v3.txt 一致）
+  -> 完整性判定 97.5%；严重误判 3.1%；作者识别 8/8
+     （与 evidence/golden_test_v3.txt 内容一致，忽略行尾差异）
 
 $ python scripts/c4_evaluator.py evaluate golden_set/G02_missing_two --out .
   -> 识别 1 位作者，正常出报告
