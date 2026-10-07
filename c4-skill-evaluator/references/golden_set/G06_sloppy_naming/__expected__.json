@@ -1,0 +1,18 @@
+{
+  "desc": "文件名完全不符合 姓名_C4_内容 规范，考验作者识别回退链",
+  "author": "Unknown",
+  "completeness": {
+    "skill_doc": true,
+    "executable_content": true,
+    "demo": false,
+    "teaching_doc": false,
+    "ai_log": false
+  },
+  "quality": {
+    "reusable": "⚠️",
+    "executable": "⚠️",
+    "verifiable": "⚠️",
+    "clear_io": "⚠️"
+  },
+  "note": "人工判读：只有两个文件，且命名不规范；作者应被标为需人工确认"
+}

@@ -1,0 +1,312 @@
+{
+  "generated_at": "2026-10-06 15:45:45",
+  "folder": "C:\\Users\\卢怡然\\Desktop\\C4\\challenge-submit-guard",
+  "rubric_version": 2,
+  "n_files_total": 5,
+  "n_files_c4": 5,
+  "n_files_non_c4": 0,
+  "non_c4_files": [],
+  "fallback_all_files": true,
+  "authors": [
+    {
+      "author": "challenge-submit-guard",
+      "id_method": "single_skill_root",
+      "id_confidence": "mid（来自技能包名，建议人工确认）",
+      "n_files": 5,
+      "versions": [
+        "v1"
+      ],
+      "files": [
+        {
+          "rel": "references/challenges.yaml",
+          "ext": ".yaml",
+          "size": 45238,
+          "version": "v1"
+        },
+        {
+          "rel": "scripts/build_registry.py",
+          "ext": ".py",
+          "size": 10238,
+          "version": "v1"
+        },
+        {
+          "rel": "scripts/challenge_submit_guard.py",
+          "ext": ".py",
+          "size": 35969,
+          "version": "v1"
+        },
+        {
+          "rel": "scripts/pack_skill.py",
+          "ext": ".py",
+          "size": 2597,
+          "version": "v1"
+        },
+        {
+          "rel": "SKILL.md",
+          "ext": ".md",
+          "size": 8845,
+          "version": "v1"
+        }
+      ],
+      "completeness": {
+        "skill_doc": {
+          "label": "Skill 说明文档",
+          "present": true,
+          "file": "references/challenges.yaml",
+          "method": "content(2 signals)",
+          "evidence": "references/challenges.yaml",
+          "note": null
+        },
+        "executable_content": {
+          "label": "可执行内容",
+          "present": true,
+          "file": "scripts/pack_skill.py",
+          "method": "filename",
+          "evidence": "scripts/pack_skill.py",
+          "note": null
+        },
+        "demo": {
+          "label": "Demo（视频/截图）",
+          "present": false,
+          "file": null,
+          "method": null,
+          "evidence": null,
+          "note": null
+        },
+        "teaching_doc": {
+          "label": "教学说明",
+          "present": true,
+          "file": "scripts/challenge_submit_guard.py",
+          "method": "content(3 signals)",
+          "evidence": "scripts/challenge_submit_guard.py",
+          "note": null
+        },
+        "ai_log": {
+          "label": "AI 生成日志",
+          "present": true,
+          "file": "references/challenges.yaml",
+          "method": "content(2 signals)",
+          "evidence": "references/challenges.yaml",
+          "note": null
+        }
+      },
+      "quality": {
+        "reusable": {
+          "label_cn": "可复用",
+          "weight": 0.25,
+          "grade": "⚠️",
+          "passed": 4,
+          "applicable": 6,
+          "details": [
+            {
+              "id": "install_instructions",
+              "label": "有安装/部署说明",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:64"
+            },
+            {
+              "id": "env_requirements",
+              "label": "声明环境要求/依赖",
+              "state": "pass",
+              "evidence": "scripts/build_registry.py:14"
+            },
+            {
+              "id": "no_hardcoded_path",
+              "label": "无硬编码本机绝对路径",
+              "state": "fail",
+              "evidence": "命中禁词 @ SKILL.md:76"
+            },
+            {
+              "id": "no_hardcoded_secret",
+              "label": "无硬编码密钥",
+              "state": "pass",
+              "evidence": "未发现：api_key = \", api_key=', sk-, token = \", password = \""
+            },
+            {
+              "id": "generalization_note",
+              "label": "有泛化/适配说明（换个场景怎么用）",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:212"
+            },
+            {
+              "id": "no_author_specific_ref",
+              "label": "不含作者专属资源引用",
+              "state": "fail",
+              "evidence": "命中禁词 @ scripts/challenge_submit_guard.py:63"
+            }
+          ],
+          "negative_flags": [
+            {
+              "id": "hard_abs_path",
+              "severity": "cap_warn",
+              "evidence": "SKILL.md:76",
+              "cap": 0.5,
+              "source": "pattern"
+            }
+          ]
+        },
+        "executable": {
+          "label_cn": "可执行",
+          "weight": 0.25,
+          "grade": "✅",
+          "passed": 5,
+          "applicable": 5,
+          "details": [
+            {
+              "id": "has_code_block",
+              "label": "含代码块 / 可运行脚本",
+              "state": "pass",
+              "evidence": "SKILL.md:45"
+            },
+            {
+              "id": "has_frontmatter",
+              "label": "含 YAML frontmatter（name/description）",
+              "state": "pass",
+              "evidence": "SKILL.md:1"
+            },
+            {
+              "id": "has_cli_or_entry",
+              "label": "有明确的运行入口（命令/函数/workflow）",
+              "state": "pass",
+              "evidence": "scripts/build_registry.py:12"
+            },
+            {
+              "id": "syntax_ok",
+              "label": "代码文件通过语法校验（真实执行 py_compile / zip 结构校验）",
+              "state": "pass",
+              "evidence": "py_compile 通过：scripts/build_registry.py"
+            },
+            {
+              "id": "skill_pkg_valid",
+              "label": ".skill 包结构完整（含 SKILL.md）",
+              "state": "n/a",
+              "evidence": "无适用文件"
+            },
+            {
+              "id": "no_placeholder_todo",
+              "label": "非「待填充」占位（无 TODO/YOUR_ 占位符）",
+              "state": "pass",
+              "evidence": "未发现：TODO:\\s*$, YOUR_[A-Z_]{3,}, <填写, 待补充"
+            }
+          ],
+          "negative_flags": []
+        },
+        "verifiable": {
+          "label_cn": "可验证",
+          "weight": 0.25,
+          "grade": "✅",
+          "passed": 4,
+          "applicable": 5,
+          "details": [
+            {
+              "id": "has_test",
+              "label": "有测试用例 / 自检入口",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:810"
+            },
+            {
+              "id": "expected_output",
+              "label": "定义了预期输出/预期结果",
+              "state": "fail",
+              "evidence": null
+            },
+            {
+              "id": "has_example",
+              "label": "有示例（输入→输出样例）",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:736"
+            },
+            {
+              "id": "demo_real",
+              "label": "Demo 为真实产物（非占位/空文件）",
+              "state": "n/a",
+              "evidence": "无适用文件"
+            },
+            {
+              "id": "measurable_result",
+              "label": "结果可度量（有数字/表格/等级）",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:11"
+            },
+            {
+              "id": "output_shape_defined",
+              "label": "输出形态被具体定义（格式/结构/条数）—— 能据此判断成功与否",
+              "state": "pass",
+              "evidence": "scripts/challenge_submit_guard.py:7"
+            }
+          ],
+          "negative_flags": []
+        },
+        "clear_io": {
+          "label_cn": "IO 明确",
+          "weight": 0.25,
+          "grade": "✅",
+          "passed": 5,
+          "applicable": 5,
+          "details": [
+            {
+              "id": "io_pair_sentence",
+              "label": "存在「输入X，输出Y」式一句话描述",
+              "state": "pass",
+              "evidence": "scripts/challenge_submit_guard.py:6"
+            },
+            {
+              "id": "input_described",
+              "label": "描述了输入类型/格式",
+              "state": "pass",
+              "evidence": "scripts/challenge_submit_guard.py:6"
+            },
+            {
+              "id": "output_described",
+              "label": "描述了输出类型/格式",
+              "state": "pass",
+              "evidence": "scripts/challenge_submit_guard.py:7"
+            },
+            {
+              "id": "one_liner_summary",
+              "label": "有一句话定位（这个技能干什么）",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:77"
+            },
+            {
+              "id": "edge_cases_noted",
+              "label": "标注了边界情况/异常处理",
+              "state": "pass",
+              "evidence": "references/challenges.yaml:295"
+            }
+          ],
+          "negative_flags": []
+        }
+      },
+      "score": {
+        "n_present": 4,
+        "n_total": 5,
+        "completeness_score": 0.8,
+        "quality_score": 0.875,
+        "total": 84.5
+      },
+      "gaming_warnings": [
+        "疑似关键词堆砌：「安装」在单文件中出现 23 次（阈值 12）—— 检测项为布尔封顶，堆砌不加分"
+      ],
+      "suggestions": [
+        "补齐 **Demo（视频/截图）**",
+        "**可复用**（⚠️）：建议补 无硬编码本机绝对路径、不含作者专属资源引用",
+        "**可复用** 触发负信号 `hard_abs_path`（证据 SKILL.md:76）——需人工确认是否为示例命令"
+      ]
+    }
+  ],
+  "class_stats": {
+    "n_authors": 1,
+    "n_complete_5": 0,
+    "n_partial": 1,
+    "n_insufficient": 0,
+    "avg_total": 84.5,
+    "most_missing": [
+      [
+        "Demo（视频/截图）",
+        1
+      ]
+    ],
+    "weakest_criterion": "可复用"
+  }
+}

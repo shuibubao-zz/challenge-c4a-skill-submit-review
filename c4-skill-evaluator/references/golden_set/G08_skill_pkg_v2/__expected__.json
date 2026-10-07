@@ -1,0 +1,18 @@
+{
+  "desc": "含合法 .skill 包（v2 版本），缺 demo",
+  "author": "吴九",
+  "completeness": {
+    "skill_doc": true,
+    "executable_content": true,
+    "demo": false,
+    "teaching_doc": true,
+    "ai_log": true
+  },
+  "quality": {
+    "reusable": "✅",
+    "executable": "✅",
+    "verifiable": "✅",
+    "clear_io": "✅"
+  },
+  "note": "人工判读：.skill 结构完整可安装 → 可执行 ✅；缺 demo 已在完整性扣分，质量不再重复扣"
+}

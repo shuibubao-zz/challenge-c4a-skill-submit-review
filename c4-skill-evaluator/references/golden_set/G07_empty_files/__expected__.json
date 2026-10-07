@@ -1,0 +1,18 @@
+{
+  "desc": "五个文件名都对，但全是 0 字节",
+  "author": "周八",
+  "completeness": {
+    "skill_doc": false,
+    "executable_content": false,
+    "demo": false,
+    "teaching_doc": false,
+    "ai_log": false
+  },
+  "quality": {
+    "reusable": "⚠️",
+    "executable": "⚠️",
+    "verifiable": "⚠️",
+    "clear_io": "⚠️"
+  },
+  "note": "人工判读：有文件名不等于有内容，完整性应为 0/5；质量维度在无语料时机器给不出结论，按设计降级为 ⚠️（不是 ❌）"
+}

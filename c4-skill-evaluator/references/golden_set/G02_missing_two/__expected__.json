@@ -1,0 +1,18 @@
+{
+  "desc": "缺「可执行内容」和「Demo」两项（只有文字说明）",
+  "author": "李四",
+  "completeness": {
+    "skill_doc": true,
+    "executable_content": false,
+    "demo": false,
+    "teaching_doc": true,
+    "ai_log": true
+  },
+  "quality": {
+    "reusable": "⚠️",
+    "executable": "❌",
+    "verifiable": "⚠️",
+    "clear_io": "⚠️"
+  },
+  "note": "人工判读：说明写得清楚，但没有任何能跑的东西，可执行应为 ❌"
+}

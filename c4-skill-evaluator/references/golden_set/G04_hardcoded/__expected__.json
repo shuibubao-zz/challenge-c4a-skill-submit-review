@@ -1,0 +1,18 @@
+{
+  "desc": "含硬编码绝对路径与明文密钥，其余内容合格",
+  "author": "赵六",
+  "completeness": {
+    "skill_doc": true,
+    "executable_content": true,
+    "demo": true,
+    "teaching_doc": true,
+    "ai_log": true
+  },
+  "quality": {
+    "reusable": "❌",
+    "executable": "✅",
+    "verifiable": "✅",
+    "clear_io": "✅"
+  },
+  "note": "人工判读：可复用必须被压到 ❌（明文密钥 + 绝对路径 = 别人拿过去跑不起来），其它三项照常给 ✅。这是纯关键词正向匹配最容易漏掉的一类。"
+}

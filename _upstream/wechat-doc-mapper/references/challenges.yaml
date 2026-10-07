@@ -1,0 +1,237 @@
+# Elite20 Challenge Registry — Full C1–C7
+# Used by wechat-doc-mapper for document classification.
+
+challenges:
+  C1:
+    name_cn: 课程资料获取与翻译
+    name_en: "Course Materials Acquisition & Translation"
+    description: >
+      获取 Stanford Vibe Coding 课程完整资料（syllabus / slides / readings / assignments），
+      完成高质量全量中文翻译，并记录翻译方法。首个完成者直接录取。
+    expected_artifacts:
+      - "姓名_C1_原文*.pdf — 英文原始资料"
+      - "姓名_C1_中文版*.docx — 中文翻译版"
+      - "姓名_C1_翻译方法.md — 翻译方法说明"
+      - "姓名_C1_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - syllabus
+      - slides
+      - readings
+      - assignment
+      - 课程
+      - 翻译
+      - translation
+      - original
+      - method
+      - prompt
+      - workflow
+      - 资料
+      - 大纲
+      - 课件
+      - vibe coding
+      - stanford
+    signal_extensions:
+      - .pptx
+      - .ppt
+    signal_paths:
+      - original
+      - translated
+
+  C2:
+    name_cn: AI for Math 论文
+    name_en: "AI for Math Paper"
+    description: >
+      围绕 AI4Math 可靠性框架（生成 / 语义规约 / 验证）写一篇可投稿论文。
+      LaTeX 写作，目标可投稿 workshop。
+    expected_artifacts:
+      - "姓名_C2_paper.tex — LaTeX 源码"
+      - "姓名_C2_paper.pdf — PDF 版本"
+      - "姓名_C2_references.bib — 参考文献"
+      - "姓名_C2_summary.md — 论文说明"
+      - "姓名_C2_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - paper
+      - 论文
+      - latex
+      - theorem
+      - proof
+      - AI4Math
+      - math
+      - verification
+      - generation
+      - semantic
+      - summary
+      - abstract
+      - 数学
+      - 证明
+      - 验证
+      - overleaf
+    signal_extensions:
+      - .tex
+      - .bib
+    signal_paths:
+      - paper
+
+  C3:
+    name_cn: 群内高质量参与
+    name_en: "High-Quality Group Participation"
+    description: >
+      成为"思考驱动者"。高频高质量参与群内讨论（提问、反思、challenge 老师或资料、
+      分享实践经验），并整理反思文档。可转化为公众号文章（联动 C7）。
+    expected_artifacts:
+      - "姓名_C3_互动记录.md — 互动记录"
+      - "姓名_C3_个人反思.md — 反思文档"
+      - "姓名_C3_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - discussion
+      - 讨论
+      - reflection
+      - 反思
+      - interaction
+      - 提问
+      - 回答
+      - log
+      - participation
+      - 群
+      - chat
+      - 观点
+      - question
+      - answer
+      - 总结
+      - 思考
+    signal_extensions: []
+    signal_paths:
+      - log
+      - reflection
+
+  C4:
+    name_cn: 技能分享与传播
+    name_en: "Skill Sharing & Propagation"
+    description: >
+      核心挑战。把个人能力转化为可复制的 Agent Skill，教会别人使用，让别人真正用起来。
+      技能必须可复用、可执行、可验证、IO 明确。前三名直接录取。
+      最关键评判标准：被使用次数。
+    expected_artifacts:
+      - "姓名_C4_skill说明.md — Skill 说明文档（问题、场景、IO、步骤、案例）"
+      - "姓名_C4_*.skill 或 .py 或 .md — 可执行内容"
+      - "姓名_C4_demo.mp4 或截图 — Demo"
+      - "姓名_C4_教学说明.md — 教学说明（上手、常见坑、优化技巧）"
+      - "姓名_C4_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - skill
+      - 技能
+      - prompt
+      - agent
+      - workflow
+      - 模板
+      - template
+      - 教学
+      - tutorial
+      - demo
+      - 使用说明
+      - 上手
+      - pipeline
+      - 自动化
+      - automation
+      - claude code
+      - CLAUDE.md
+      - skill.md
+    signal_extensions:
+      - .skill
+    signal_paths:
+      - skill
+      - demo
+
+  C5:
+    name_cn: GitHub Repository
+    name_en: "GitHub Repository"
+    description: >
+      建立公开、可验证的技术能力。创建一个 GitHub repo，包含实际项目、文档、使用说明。
+      评判标准：实用性、代码质量、可复现性、被 star/fork/使用。
+    expected_artifacts:
+      - "姓名_C5_repo链接.md — GitHub repo URL + 说明"
+      - "README.md — repo 内完整说明"
+      - "姓名_C5_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - github
+      - repo
+      - repository
+      - git
+      - readme
+      - star
+      - fork
+      - 代码
+      - code
+      - 开源
+      - open source
+    signal_extensions: []
+    signal_paths:
+      - repo
+      - github
+
+  C6:
+    name_cn: Web Application
+    name_en: "Web Application"
+    description: >
+      构建真实可运行的产品（不是 demo）。一个完整 web app，必须集成 AI 能力。
+      前端必须，后端可选。评判标准：可用性、用户体验、AI 整合深度。
+    expected_artifacts:
+      - "姓名_C6_app链接.md — 部署后的 URL"
+      - "姓名_C6_demo.mp4 — 演示视频"
+      - "姓名_C6_repo链接.md — GitHub 源码地址"
+      - "姓名_C6_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - web app
+      - webapp
+      - website
+      - 网站
+      - 应用
+      - deploy
+      - 部署
+      - frontend
+      - 前端
+      - backend
+      - 后端
+      - url
+      - 网址
+      - vercel
+      - netlify
+      - heroku
+    signal_extensions:
+      - .html
+      - .jsx
+      - .tsx
+    signal_paths:
+      - app
+      - web
+
+  C7:
+    name_cn: 内容传播
+    name_en: "Content Distribution (WeChat / Zhihu)"
+    description: >
+      构建个人影响力。选择一个平台（微信公众号或知乎），持续发布内容并分享到群里。
+      评判标准：阅读量/点赞、内容质量、是否被他人传播。
+    expected_artifacts:
+      - "姓名_C7_文章标题.md — 文章链接 + 说明"
+      - "姓名_C7_数据截图.png — 传播数据（阅读量、点赞、转发）"
+      - "姓名_C7_AI日志.md — AI 生成日志"
+    signal_keywords:
+      - 公众号
+      - 知乎
+      - wechat
+      - zhihu
+      - 文章
+      - article
+      - 阅读量
+      - 点赞
+      - 传播
+      - 发布
+      - publish
+      - 内容
+      - content
+      - 影响力
+      - blog
+    signal_extensions: []
+    signal_paths:
+      - article
+      - content

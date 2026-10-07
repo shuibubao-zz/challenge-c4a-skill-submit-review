@@ -1,0 +1,225 @@
+# =============================================================================
+# C4 Skill Submission Evaluation Rubric — v2 (machine-readable)
+# -----------------------------------------------------------------------------
+# 来源与改造（详见 卢怡然_C4A_拿来说明.md）：
+#   基座 = materials/c4a-skill-evaluator-starter/references/c4_rubric.yaml
+#   v2 相对基座的 5 处实质改造：
+#     R1 每个检测项从"关键词命中"升级为"证据锚定 + 布尔封顶"（防关键词堆砌）
+#     R2 新增 negative 负信号与 hard_floor 硬地板（关键词法最大的漏检区）
+#     R3 评级阈值从"2+ 项满足"改为比例阈值（原规则随检测项数量漂移）
+#     R4 新增 cannot_verify：区分"确实缺失"与"机器查不到"
+#     R5 新增 executable 的真实校验（py_compile / zip 结构 / frontmatter 解析）
+# =============================================================================
+
+version: 2
+based_on: "c4a-skill-evaluator-starter/references/c4_rubric.yaml"
+
+# ---------------------------------------------------------------- 完整性：5 项
+completeness:
+  skill_doc:
+    label_cn: "Skill 说明文档"
+    required: true
+    filename_patterns: ["skill说明", "skill_doc", "skill-doc", "skill_description", "skill文档"]
+    content_signals: ["使用场景", "解决什么问题", "输入", "输出", "use case", "input", "output"]
+    min_content_hits: 2          # R1：单关键词不算数，需 ≥2 个不同信号
+    preferred_ext: [".md", ".txt", ".pdf", ".docx"]
+
+  executable_content:
+    label_cn: "可执行内容"
+    required: true
+    filename_patterns: ["技能", "skill", "脚本", "script"]
+    content_signals: ["```", "def ", "class ", "import ", "---\nname:"]
+    min_content_hits: 1
+    preferred_ext: [".skill", ".py", ".md", ".zip", ".sh", ".js"]
+    # R5：这些扩展名走"真实校验"而非关键词
+    real_check_ext: [".py", ".skill", ".zip"]
+
+  demo:
+    label_cn: "Demo（视频/截图）"
+    required: true
+    filename_patterns: ["demo", "演示", "截图", "screen", "录屏", "示例运行"]
+    content_signals: []
+    min_content_hits: 0
+    preferred_ext: [".mp4", ".mov", ".webm", ".png", ".jpg", ".jpeg", ".gif"]
+
+  teaching_doc:
+    label_cn: "教学说明"
+    required: true
+    filename_patterns: ["教学说明", "教学", "tutorial", "teaching", "上手指南", "quickstart", "how-to"]
+    content_signals: ["上手", "步骤", "常见坑", "安装", "注意事项", "getting started", "step by step"]
+    min_content_hits: 2
+    preferred_ext: [".md", ".txt", ".pdf", ".docx"]
+
+  ai_log:
+    label_cn: "AI 生成日志"
+    required: true
+    filename_patterns: ["AI日志", "AI_log", "ai-log", "ai_日志", "ailog"]
+    content_signals: ["使用的 AI", "AI 工具", "prompt", "迭代次数", "迭代", "ChatGPT", "Claude", "DeepSeek"]
+    min_content_hits: 2
+    preferred_ext: [".md", ".txt", ".pdf", ".docx"]
+
+# ---------------------------------------------------------------- 质量：四条件
+# 每个 check item 命中即得 1 分（布尔，不重复累计 → 天然防堆砌）
+quality:
+
+  reusable:
+    label_cn: "可复用"
+    weight: 0.25
+    description: "别人拿过去能直接用，不依赖作者特定环境"
+    check_items:
+      - id: install_instructions
+        label: "有安装/部署说明"
+        any_of: ["安装", "install", "pip install", "npm install", "部署", "deploy", "如何开始", "快速开始"]
+      - id: env_requirements
+        label: "声明环境要求/依赖"
+        any_of: ["环境要求", "requirements", "依赖", "dependencies", "Python 3", "python3", "前置条件", "prerequisites"]
+      - id: no_hardcoded_path
+        label: "无硬编码本机绝对路径"
+        none_of: ["C:\\\\Users\\\\", "/Users/", "/home/", "D:\\\\", "我的电脑", "desktop\\\\"]
+      - id: no_hardcoded_secret
+        label: "无硬编码密钥"
+        none_of: ["api_key = \"", "api_key='", "sk-", "token = \"", "password = \""]
+      - id: generalization_note
+        label: "有泛化/适配说明（换个场景怎么用）"
+        any_of: ["泛化", "其他场景", "扩展", "适配", "举一反三", "不限于", "generaliz", "adapt"]
+      - id: no_author_specific_ref
+        label: "不含作者专属资源引用"
+        none_of: ["我的电脑", "本机", "我自己的", "私有的"]
+    negative:
+      - id: hard_abs_path
+        severity: cap_warn          # ⚠️ 封顶（可能是示例命令，需人工确认）
+        pattern: "(?:C:\\\\Users\\\\|/Users/|/home/)[A-Za-z0-9_.\\\\/-]{3,}"
+        cap: 0.5
+      - id: hard_secret
+        severity: cap_fail          # ❌ 封顶（严重）
+        pattern: "(?:api[_-]?key|token|password)\\s*[:=]\\s*[\"'][A-Za-z0-9_\\-]{8,}[\"']"
+        cap: 0.0
+
+  executable:
+    label_cn: "可执行"
+    weight: 0.25
+    description: "不是理论，是能跑的东西"
+    check_items:
+      - id: has_code_block
+        label: "含代码块 / 可运行脚本"
+        any_of: ["```python", "```bash", "```sh", "```javascript", "```js", "def ", "class ", "import "]
+      - id: has_frontmatter
+        label: "含 YAML frontmatter（name/description）"
+        # v1 的缺陷：对一份纯 .py 脚本提交也要求 frontmatter，必然判 ❌。
+        # v2：没有 .skill 包 / SKILL.md 时该项不适用（n/a），不进分母。
+        requires_skill_pkg: true
+        any_of: ["---\nname:", "name: c4-", "description: >"]
+      - id: has_cli_or_entry
+        label: "有明确的运行入口（命令/函数/workflow）"
+        any_of: ["python ", "python3 ", "argparse", "def main", "if __name__", "npm run", "node ", "命令行", "运行方式", "Usage:", "workflow:", "Step 1"]
+      - id: syntax_ok
+        label: "代码文件通过语法校验（真实执行 py_compile / zip 结构校验）"
+        real: true                  # R5：不靠关键词，靠真实校验
+      - id: skill_pkg_valid
+        label: ".skill 包结构完整（含 SKILL.md）"
+        real: true
+      - id: no_placeholder_todo
+        label: "非「待填充」占位（无 TODO/YOUR_ 占位符）"
+        # v1 的缺陷（黄金集实测发现的真实误报）：
+        # 大小写不敏感匹配 "YOUR_" 会把正常使用示例 `your_file.py` 误判成待填充占位。
+        # v2：改成大小写敏感的正则，只认 YOUR_API_KEY 这类全大写约定。
+        none_of_regex: ["TODO:\\s*$", "YOUR_[A-Z_]{3,}", "<填写", "待补充"]
+    negative:
+      - id: syntax_broken
+        severity: cap_fail          # ❌ 封顶：代码跑不起来，其余项再漂亮也不叫可执行
+        real_ref: syntax_ok
+        cap: 0.0
+
+  verifiable:
+    label_cn: "可验证"
+    weight: 0.25
+    description: "有明确输入输出，能判断成功与否"
+    check_items:
+      - id: has_test
+        label: "有测试用例 / 自检入口"
+        any_of: ["测试", "test", "selftest", "self-test", "--self-test", "pytest", "assert ", "断言", "自检"]
+      - id: expected_output
+        label: "定义了预期输出/预期结果"
+        any_of: ["预期", "expected", "期望", "应该输出", "输出示例", "样例输出", "success criteria", "判据"]
+      - id: has_example
+        label: "有示例（输入→输出样例）"
+        any_of: ["示例", "example", "例如", "样例", "举个", "for instance"]
+      - id: demo_real
+        label: "Demo 为真实产物（非占位/空文件）"
+        real: true
+      - id: measurable_result
+        label: "结果可度量（有数字/表格/等级）"
+        any_of: ["分", "/100", "评分", "评级", "✅", "得分", "指标", "score", "rank"]
+      - id: output_shape_defined
+        label: "输出形态被具体定义（格式/结构/条数）—— 能据此判断成功与否"
+        # v2 新增：v1 的 verifiable 只看「测试/预期/示例」三个字面词，
+        # 漏掉了「输出一份 Markdown 报告」「输出 CSV」这种其实可验证的表述
+        any_of_regex: ["输出[^。\\n]{0,30}(CSV|JSON|Markdown|表格|报告|列表|文件|摘要|纪要)"]
+
+  clear_io:
+    label_cn: "IO 明确"
+    weight: 0.25
+    description: "输入什么、输出什么，一目了然"
+    check_items:
+      - id: io_pair_sentence
+        label: "存在「输入X，输出Y」式一句话描述"
+        any_of_regex: ["输入[^。\\n]{0,60}输出", "input[^.\\n]{0,60}output", "接受[^。\\n]{0,40}返回", "给定[^。\\n]{0,40}得到", "输入：[^\\n]{0,60}", "输入\\s*\\|?\\s*输出"]
+      - id: input_described
+        label: "描述了输入类型/格式"
+        # v1 的缺陷：只有"输入：""参数"这类字面量，导致「输入一个 .py 文件路径」判不出，
+        # 而同维度的 io_pair_sentence 却判得出来 —— 同一维度内部自相矛盾。v2 用正则补召回。
+        any_of: ["输入类型", "输入格式", "输入：", "输入为", "接受", "参数", "参数说明", "参数：", "input type"]
+        any_of_regex: ["输入[^。\\n]{0,40}(路径|文件|文本|字符串|文件夹|目录|URL|链接|代码|链接)"]
+      - id: output_described
+        label: "描述了输出类型/格式"
+        any_of: ["输出类型", "输出格式", "输出：", "输出为", "返回", "生成", "产出", "output format", "输出文件"]
+        any_of_regex: ["输出[^。\\n]{0,40}(路径|文件|文本|报告|表格|列表|JSON|CSV|Markdown|图片|摘要)"]
+      - id: one_liner_summary
+        label: "有一句话定位（这个技能干什么）"
+        any_of: ["一句话", "这个技能", "本技能", "用于", "用来", "作用是", "一句话：", "本技能用于", "给你", "帮你"]
+        any_of_regex: ["^#\\s*.{2,20}(助手|工具|生成器|机器人|评审器|检查器)$"]
+      - id: edge_cases_noted
+        label: "标注了边界情况/异常处理"
+        any_of: ["边界", "异常", "edge case", "错误处理", "空文件夹", "如果不", "兜底", "回退", "fallback"]
+
+# ---------------------------------------------------------------- 评级阈值（R3）
+# 基座规则："2+ 项满足=✅ / 1 项=⚠️ / 0 项=❌"
+# 问题：阈值随检测项数量漂移（4 项的维度和 6 项的维度不可比）
+# v2：改用比例阈值，scale-free
+grading:
+  thresholds:
+    pass: 0.75       # ≥75% 检测项满足 → ✅
+    partial: 0.40    # ≥40% → ⚠️
+    # <40% → ❌
+  score_map:
+    "✅": 1.0
+    "⚠️": 0.5
+    "❌": 0.0
+  composite:
+    formula: "completeness_score * w_completeness + quality_score * w_quality"
+    w_completeness: 0.4
+    w_quality: 0.6
+
+# ---------------------------------------------------------------- R4：机器查不到
+cannot_verify:
+  - id: binary_content
+    desc: "二进制/媒体文件（.mp4/.png/.docx/.pdf）无法做内容级评审，仅按文件名与扩展名判定"
+    affects: ["quality"]
+  - id: no_corpus
+    desc: "该作者未提交任何可读文本文件，质量维度只能给出 0 分并标注「无语料」，不代表质量差"
+    affects: ["quality"]
+  - id: empty_file
+    desc: "文件为 0 字节，视为未提交（有文件名不等于有内容）"
+    affects: ["completeness"]
+  - id: subjective_quality
+    desc: "「这个技能是否真的有用」需要人判断，机器只能查结构与信号"
+    affects: ["overall"]
+
+# ---------------------------------------------------------------- 反作弊
+anti_gaming:
+  stuffing:
+    desc: "同一信号词在单文件中出现次数超过阈值 → 标记疑似关键词堆砌（仅警告，不直接扣分）"
+    threshold: 12
+  duplicate_content:
+    desc: "多个文件内容高度重复（相似度 > 0.9）→ 标记疑似一稿多投"
+    threshold: 0.9

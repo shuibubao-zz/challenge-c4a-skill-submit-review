@@ -1,0 +1,18 @@
+{
+  "desc": "提交了 .py 但语法错误，跑不起来",
+  "author": "孙七",
+  "completeness": {
+    "skill_doc": true,
+    "executable_content": true,
+    "demo": false,
+    "teaching_doc": true,
+    "ai_log": false
+  },
+  "quality": {
+    "reusable": "⚠️",
+    "executable": "❌",
+    "verifiable": "❌",
+    "clear_io": "⚠️"
+  },
+  "note": "人工判读：语法错误 → 可执行必须 ❌；没有 demo 也没有测试 → 可验证 ❌"
+}

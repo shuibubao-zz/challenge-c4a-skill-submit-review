@@ -1,0 +1,18 @@
+{
+  "desc": "五项齐全但正文只是关键词重复，没有任何真实内容",
+  "author": "王五",
+  "completeness": {
+    "skill_doc": true,
+    "executable_content": true,
+    "demo": true,
+    "teaching_doc": true,
+    "ai_log": true
+  },
+  "quality": {
+    "reusable": "⚠️",
+    "executable": "❌",
+    "verifiable": "⚠️",
+    "clear_io": "⚠️"
+  },
+  "note": "人工判读：文件都在，但正文是空壳。可执行必须是 ❌（没有任何可运行物），其余三项最多 ⚠️；若评审器给出 ✅ 即为严重误判"
+}
